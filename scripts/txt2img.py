@@ -220,10 +220,13 @@ def main(opt):
 
     if opt.plms:
         sampler = PLMSSampler(model, device=device)
+        print("Using PLMS")
     elif opt.dpm:
         sampler = DPMSolverSampler(model, device=device)
+        print("Using DPM")
     else:
         sampler = DDIMSampler(model, device=device)
+        print("Using DDIM")
 
     os.makedirs(opt.outdir, exist_ok=True)
     outpath = opt.outdir
