@@ -127,7 +127,7 @@ class DDIMSampler(object):
                       mask=None, x0=None, img_callback=None, log_every_t=100,
                       temperature=1., noise_dropout=0., score_corrector=None, corrector_kwargs=None,
                       unconditional_guidance_scale=1., unconditional_conditioning=None, dynamic_threshold=None,
-                      ucg_schedule=None):
+                      ucg_schedule=None, switch_time=-1, cond2 = None):
         device = self.model.betas.device
         b = shape[0]
         if x_T is None:
@@ -160,6 +160,11 @@ class DDIMSampler(object):
             if ucg_schedule is not None:
                 assert len(ucg_schedule) == len(time_range)
                 unconditional_guidance_scale = ucg_schedule[i]
+
+            # added by Muhammad:
+            if i < switch_time:
+                print("Switching prompt!")
+                cond = cond2
 
             outs = self.p_sample_ddim(img, cond, ts, index=index, use_original_steps=ddim_use_original_steps,
                                       quantize_denoised=quantize_denoised, temperature=temperature,
