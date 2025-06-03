@@ -237,6 +237,7 @@ def main():
                     ambiguity_scores=reconstruction_losses.unsqueeze(1)
                 )
                 dataloader_ambiguity = DataLoader(dataset, batch_size=8, shuffle=True)
+                print("len of dataset", len(dataset))
                 
                 # Train ambiguity network
                 avg_loss = train_ambiguity_network(
